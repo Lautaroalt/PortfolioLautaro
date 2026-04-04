@@ -1,11 +1,5 @@
 # Lautaro Altamirano — Portfolio
 
-Landing profesional en Next.js enfocada en perfil **Backend Developer** orientado a:
-- sistemas reales
-- automatización
-- SQL
-- integración entre sistemas
-
 ## Stack
 - Next.js (App Router)
 - TypeScript
@@ -26,7 +20,6 @@ Abrir [http://localhost:3000](http://localhost:3000).
 ```bash
 npm run lint
 ```
-
 ## Build de producción
 
 ```bash
