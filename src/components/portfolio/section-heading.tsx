@@ -18,7 +18,7 @@ export function SectionHeading({
 
   return (
     <div className={alignment}>
-      <span className="inline-flex rounded-full border border-emerald-400/18 bg-emerald-400/8 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-emerald-200/85">
+      <span className="inline-flex rounded-full border border-emerald-400/24 bg-emerald-400/[0.1] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-emerald-200 shadow-[0_0_0_rgba(16,185,129,0)] transition duration-300">
         {eyebrow}
       </span>
       <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">

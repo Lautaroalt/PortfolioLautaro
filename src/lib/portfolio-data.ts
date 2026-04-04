@@ -67,11 +67,6 @@ type PortfolioContent = {
     cards: { title: string; value: string }[];
     stack: string[];
   };
-  valueProp: {
-    heading: string;
-    title: string;
-    items: string[];
-  };
   about: {
     heading: string;
     title: string;
@@ -205,17 +200,6 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       ],
       stack: ["React", "Next.js", "Tailwind", "FastAPI"],
     },
-    valueProp: {
-      heading: "Valor",
-      title: "Qué puedo aportar",
-      items: [
-        "Desarrollo de sistemas internos (reemplazo de Excel)",
-        "APIs y backend para lógica de negocio",
-        "Automatización de procesos repetitivos",
-        "Integración entre sistemas (APIs, servicios)",
-        "Interfaces claras para operación diaria",
-      ],
-    },
     about: {
       heading: "Sobre mí",
       title: "Full Stack para operación real",
@@ -346,7 +330,7 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       title: "Formación continua",
       description: "Capacitación orientada a desarrollo de software y mejora técnica permanente.",
       items: [
-        { title: "Tecnicatura en Desarrollo de Software", institution: "Formación académica", type: "Educación formal" },
+        { title: "Tecnicatura en Desarrollo de Software", institution: "Instituto Educación Superior 9023", type: "Educación formal" },
         { title: "Front End React", institution: "CoderHouse", type: "Curso" },
         { title: "Ciberseguridad y Hacking Ético", institution: "Udemy", type: "Curso" },
         { title: "Full Stack", institution: "Udemy", type: "Curso" },
@@ -402,17 +386,6 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
         { title: "Integration", value: "Automation and connected systems" },
       ],
       stack: ["React", "Next.js", "Tailwind", "FastAPI"],
-    },
-    valueProp: {
-      heading: "Value",
-      title: "What I can bring",
-      items: [
-        "Internal systems that replace spreadsheets",
-        "APIs and backend for business logic",
-        "Automation of repetitive processes",
-        "Integration between systems and services",
-        "Clear interfaces for day-to-day operations",
-      ],
     },
     about: {
       heading: "About",

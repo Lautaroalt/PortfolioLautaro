@@ -5,6 +5,7 @@ import { motion, type Variants } from "framer-motion";
 import {
   Activity,
   AtSign,
+  BookOpen,
   Braces,
   Check,
   Code2,
@@ -15,6 +16,7 @@ import {
   FileCode2,
   GitBranch,
   Globe,
+  GraduationCap,
   Layers3,
   Link2,
   Server,
@@ -29,10 +31,10 @@ import { TypingText } from "@/components/portfolio/typing-text";
 import { portfolioContentByLocale, type Locale } from "@/lib/portfolio-data";
 
 const actionButtonStyles =
-  "inline-flex h-11 items-center justify-center rounded-xl border border-emerald-400/18 bg-white/[0.03] px-5 text-sm font-medium text-slate-100 transition duration-300 hover:scale-105 hover:border-emerald-300/40 hover:bg-emerald-400/[0.08]";
+  "inline-flex h-11 items-center justify-center rounded-xl border border-emerald-400/22 bg-white/[0.04] px-5 text-sm font-medium text-slate-100 shadow-[0_10px_26px_rgba(0,0,0,0.22)] transition duration-300 hover:scale-[1.02] hover:border-emerald-300/55 hover:bg-emerald-400/[0.1] hover:shadow-[0_18px_40px_rgba(16,185,129,0.14)]";
 
 const cardStyles =
-  "rounded-2xl border border-emerald-400/10 bg-white/[0.02] shadow-[0_16px_48px_rgba(0,0,0,0.42)]";
+  "rounded-2xl border border-emerald-400/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.035),rgba(255,255,255,0.02))] shadow-[0_18px_50px_rgba(0,0,0,0.44)]";
 
 const staggerContainer: Variants = {
   hidden: {},
@@ -88,6 +90,16 @@ export default function PortfolioPage() {
   const [activeSection, setActiveSection] = useState("top");
   const year = new Date().getFullYear();
   const t = portfolioContentByLocale[lang];
+  const educationItems = t.education?.items ?? [];
+  const [featuredEducation, ...secondaryEducation] = educationItems;
+  const heroFocusCards = t.heroFocus?.cards ?? [];
+  const heroFocusStack = t.heroFocus?.stack ?? [];
+  const featuredProjectBullets = t.projects.featured?.bullets ?? [];
+  const featuredProjectStack = t.projects.featured?.stack ?? [];
+  const featuredProjectLinks = t.projects.featured?.links ?? [];
+  const featuredProjectPreview = t.projects.featured?.preview ?? [];
+  const projectItems = t.projects?.items ?? [];
+  const experienceItems = t.experience?.items ?? [];
   const heroTypingTexts =
     lang === "es"
       ? ["SQL", "Integracion de sistemas", "Automatizacion", "Frontend + Backend"]
@@ -121,7 +133,9 @@ export default function PortfolioPage() {
     ],
   };
 
-  const skillsForRender = t.skills.groups.map((group) => {
+  const skillGroups = t.skills?.groups ?? [];
+
+  const skillsForRender = skillGroups.map((group) => {
     const candidate = (group as { items?: unknown; technologies?: unknown; stack?: unknown })
       .items
       ?? (group as { technologies?: unknown }).technologies
@@ -333,7 +347,7 @@ export default function PortfolioPage() {
                     </span>
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2">
-                    {t.heroFocus.cards.map((item, index) => {
+                    {heroFocusCards.map((item, index) => {
                       const Icon = heroSignalIcons[index] ?? Layers3;
                       return (
                       <motion.div
@@ -355,7 +369,7 @@ export default function PortfolioPage() {
                 <div className="mt-3 rounded-xl border border-emerald-400/10 bg-black/55 p-3">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">{t.heroFocus.stackLabel}</p>
                   <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
-                    {t.heroFocus.stack.map((item) => (
+                    {heroFocusStack.map((item) => (
                       <span
                         key={item}
                         className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-slate-200"
@@ -365,35 +379,6 @@ export default function PortfolioPage() {
                     ))}
                   </div>
                 </div>
-              </motion.div>
-            </div>
-          </Reveal>
-        </section>
-
-        <section className="py-8">
-          <Reveal>
-            <div className={`${cardStyles} p-6 sm:p-8`}>
-              <SectionHeading
-                eyebrow={t.valueProp.heading}
-                title={t.valueProp.title}
-              />
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={staggerContainer}
-                className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3"
-              >
-                {t.valueProp.items.map((item) => (
-                  <motion.div
-                    key={item}
-                    variants={staggerItem}
-                    className="rounded-xl border border-emerald-400/12 bg-white/[0.03] px-4 py-3 text-sm text-slate-200"
-                  >
-                    <span className="mr-3 inline-block h-2 w-2 rounded-full bg-emerald-300" />
-                    {item}
-                  </motion.div>
-                ))}
               </motion.div>
             </div>
           </Reveal>
@@ -432,7 +417,7 @@ export default function PortfolioPage() {
                     {t.projects.featured.summary}
                   </p>
                   <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                    {t.projects.featured.bullets.map((bullet) => (
+                    {featuredProjectBullets.map((bullet) => (
                       <li key={bullet} className="flex gap-2">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
                         <span>{bullet}</span>
@@ -440,7 +425,7 @@ export default function PortfolioPage() {
                     ))}
                   </ul>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {t.projects.featured.stack.map((item) => (
+                    {featuredProjectStack.map((item) => (
                       <span
                         key={item}
                         className="rounded-lg border border-white/12 bg-slate-950/80 px-3 py-1.5 text-sm text-slate-200"
@@ -450,7 +435,7 @@ export default function PortfolioPage() {
                     ))}
                   </div>
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {t.projects.featured.links.map((link) =>
+                    {featuredProjectLinks.map((link) =>
                       link.href ? (
                         <a
                           key={link.label}
@@ -506,7 +491,7 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                     <div className="mt-3 space-y-2">
-                      {t.projects.featured.preview.map((line) => (
+                      {featuredProjectPreview.map((line) => (
                         <div
                           key={line}
                           className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-300"
@@ -528,7 +513,7 @@ export default function PortfolioPage() {
             variants={staggerContainer}
             className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
           >
-            {t.projects.items.map((project, index) => (
+            {projectItems.map((project, index) => (
               <Reveal key={project.name} delay={0.02 * (index + 1)}>
                 <motion.article
                   variants={staggerItem}
@@ -613,14 +598,14 @@ export default function PortfolioPage() {
                   <h3 className="mt-4 text-xl font-semibold text-white">{project.name}</h3>
                   <p className="mt-3 text-sm leading-7 text-slate-300">{project.summary}</p>
                   <div className="mt-3 space-y-1.5">
-                    {project.preview.slice(0, 2).map((line) => (
+                      {project.preview?.slice(0, 2).map((line) => (
                       <p key={line} className="text-xs text-slate-400">
                         {line}
                       </p>
                     ))}
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {project.stack.map((item) => (
+                    {project.stack?.map((item) => (
                       <span
                         key={item}
                         className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
@@ -630,7 +615,7 @@ export default function PortfolioPage() {
                     ))}
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {project.links.map((link) =>
+                    {project.links?.map((link) =>
                       link.href ? (
                         <a
                           key={link.label}
@@ -743,7 +728,7 @@ export default function PortfolioPage() {
             variants={staggerContainer}
             className="mt-8 grid gap-4 lg:grid-cols-2"
           >
-            {t.experience.items.map((item, index) => (
+            {experienceItems.map((item, index) => (
               <Reveal key={item.company} delay={0.03 * index}>
                 <motion.article
                   variants={staggerItem}
@@ -757,7 +742,7 @@ export default function PortfolioPage() {
                   <h3 className="mt-2 text-xl font-semibold text-white">{item.company}</h3>
                   <p className="mt-1 text-sm text-emerald-100/90">{item.role}</p>
                   <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                    {item.highlights.map((highlight) => (
+                    {item.highlights?.map((highlight) => (
                       <motion.li
                         key={highlight}
                         initial={{ opacity: 0, y: 8 }}
@@ -785,49 +770,150 @@ export default function PortfolioPage() {
               description={t.education.description}
             />
           </Reveal>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={staggerContainer}
-            className="mt-8 grid gap-4 md:grid-cols-2"
-          >
-            {t.education.items.map((item, index) => (
-              <Reveal key={item.title} delay={0.03 * index}>
-                <motion.article
-                  variants={staggerItem}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  whileHover={{ y: -4 }}
-                  className={`${cardStyles} p-5`}
-                >
-                  <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.type}</p>
-                  <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-sm text-slate-300">{item.institution}</p>
-                </motion.article>
-              </Reveal>
-            ))}
-          </motion.div>
+          <div className="relative mt-8">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_left_top,rgba(52,211,153,0.12),transparent_62%)]" />
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={staggerContainer}
+              className="relative grid gap-4"
+            >
+              {featuredEducation ? (
+                <Reveal delay={0.02}>
+                  <motion.article
+                    variants={staggerItem}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    whileHover={{ y: -6, scale: 1.01 }}
+                    className="overflow-hidden rounded-[1.75rem] border border-emerald-400/22 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(255,255,255,0.04)_36%,rgba(0,0,0,0.22))] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.42)]"
+                  >
+                    <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                      <div className="max-w-2xl">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-100">
+                            <GraduationCap className="h-3.5 w-3.5" />
+                            Formacion principal
+                          </span>
+                          <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-slate-300">
+                            {featuredEducation.type}
+                          </span>
+                        </div>
+                        <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-[1.85rem]">
+                          {featuredEducation.title}
+                        </h3>
+                        <p className="mt-3 text-base leading-7 text-slate-200">
+                          {featuredEducation.institution}
+                        </p>
+                        <div className="mt-5 flex flex-wrap gap-2">
+                          <span className="rounded-lg border border-emerald-400/18 bg-black/25 px-3 py-1.5 text-sm text-emerald-100">
+                            Base solida para desarrollo de software
+                          </span>
+                          <span className="rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-sm text-slate-300">
+                            Enfoque tecnico y continuidad
+                          </span>
+                        </div>
+                      </div>
+                      <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                        <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
+                            Institucion
+                          </p>
+                          <p className="mt-2 text-sm text-slate-200">
+                            {featuredEducation.institution}
+                          </p>
+                        </div>
+                        <div className="rounded-2xl border border-emerald-400/16 bg-emerald-400/10 p-4">
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-emerald-100/80">
+                            Perfil
+                          </p>
+                          <p className="mt-2 text-sm text-emerald-50">
+                            Formacion orientada a construir producto, backend y sistemas reales.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.article>
+                </Reveal>
+              ) : null}
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.15 }}
+                variants={staggerContainer}
+                className="grid gap-4 md:grid-cols-3"
+              >
+                {secondaryEducation.map((item, index) => (
+                  <Reveal key={item.title} delay={0.03 * index}>
+                    <motion.article
+                      variants={staggerItem}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.2 }}
+                      whileHover={{ y: -6, scale: 1.015 }}
+                      className={`${cardStyles} relative overflow-hidden p-5 transition-shadow duration-300 hover:border-emerald-300/30 hover:shadow-[0_18px_40px_rgba(16,185,129,0.12)]`}
+                    >
+                      <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 hover:opacity-100" />
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.type}</p>
+                          <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
+                        </div>
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/16 bg-emerald-400/10 text-emerald-200">
+                          <BookOpen className="h-4 w-4" />
+                        </span>
+                      </div>
+                      <p className="mt-3 text-sm leading-7 text-slate-300">{item.institution}</p>
+                      <div className="mt-4">
+                        <span className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-slate-300">
+                          Formacion complementaria
+                        </span>
+                      </div>
+                    </motion.article>
+                  </Reveal>
+                ))}
+              </motion.div>
+            </motion.div>
+          </div>
         </section>
 
         <section id="contact" className="scroll-mt-28 py-16">
           <Reveal>
-            <div className={`${cardStyles} p-6 sm:p-8`}>
-              <SectionHeading
-                eyebrow={t.contact.heading}
-                title={t.contact.title}
-                description={t.contact.description}
-              />
+            <div className="relative overflow-hidden rounded-[1.9rem] border border-emerald-400/20 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(255,255,255,0.035)_30%,rgba(0,0,0,0.18))] p-6 shadow-[0_26px_70px_rgba(0,0,0,0.5)] sm:p-8">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(52,211,153,0.18),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.12),transparent_30%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:56px_56px] opacity-30 [mask-image:radial-gradient(circle_at_center,black,transparent_86%)]" />
+              <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                <div>
+                  <SectionHeading
+                    eyebrow={t.contact.heading}
+                    title={t.contact.title}
+                    description={t.contact.description}
+                  />
+                  <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-300/28 bg-emerald-400/12 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-100">
+                    <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
+                    {lang === "es"
+                      ? "Disponible para nuevas oportunidades"
+                      : "Open to new opportunities"}
+                  </div>
+                </div>
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={staggerContainer}
-                className="mt-8 flex flex-col gap-3"
+                  className="flex flex-col gap-4"
               >
-                <motion.div variants={staggerItem} className="flex flex-wrap items-center gap-2">
-                  <a href={`mailto:${t.contact.email}`} className={actionButtonStyles}>
+                  <motion.div
+                    variants={staggerItem}
+                    className="rounded-2xl border border-white/10 bg-black/25 p-4 shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
+                      Contacto directo
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <a href={`mailto:${t.contact.email}`} className={actionButtonStyles}>
                     <AtSign className="mr-2 h-4 w-4 text-emerald-200" />
                     {t.contact.email}
                   </a>
@@ -840,38 +926,50 @@ export default function PortfolioPage() {
                     }}
                     className={actionButtonStyles}
                   >
-                    {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                    {copied ? t.contact.copiedEmail : t.contact.copyEmail}
-                  </button>
-                </motion.div>
-                <motion.div variants={staggerItem} className="flex flex-wrap gap-2">
-                  <a
-                    href={`mailto:${t.contact.email}`}
-                    className="inline-flex h-11 items-center rounded-xl bg-emerald-300 px-5 text-sm font-semibold text-black transition hover:bg-emerald-200"
+                      {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
+                      {copied ? t.contact.copiedEmail : t.contact.copyEmail}
+                    </button>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    variants={staggerItem}
+                    className="rounded-2xl border border-emerald-400/16 bg-emerald-400/10 p-5 shadow-[0_18px_44px_rgba(16,185,129,0.12)]"
                   >
-                    {t.navActions.contact}
-                  </a>
-                  <a
-                    href={t.contact.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={actionButtonStyles}
-                  >
-                    <Link2 className="mr-2 h-4 w-4" />
-                    GitHub
-                  </a>
-                  <a
-                    href={t.contact.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={actionButtonStyles}
-                  >
-                    <Globe className="mr-2 h-4 w-4" />
-                    LinkedIn
-                  </a>
-                  <CvButton label={t.navActions.downloadCv} className="h-11 rounded-xl px-5 py-0" />
-                </motion.div>
+                    <p className="text-sm font-medium text-emerald-50">
+                      Hablemos si necesitás alguien que pueda moverse con comodidad entre producto, backend, frontend y datos.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <a
+                        href={`mailto:${t.contact.email}`}
+                        className="inline-flex h-11 items-center rounded-xl bg-emerald-300 px-5 text-sm font-semibold text-black shadow-[0_14px_34px_rgba(16,185,129,0.18)] transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-200 hover:shadow-[0_18px_40px_rgba(16,185,129,0.24)]"
+                      >
+                        {t.navActions.contact}
+                      </a>
+                      <CvButton label={t.navActions.downloadCv} className="h-11 rounded-xl px-5 py-0" />
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <a
+                        href={t.contact.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={actionButtonStyles}
+                      >
+                        <Link2 className="mr-2 h-4 w-4" />
+                        GitHub
+                      </a>
+                      <a
+                        href={t.contact.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={actionButtonStyles}
+                      >
+                        <Globe className="mr-2 h-4 w-4" />
+                        LinkedIn
+                      </a>
+                    </div>
+                  </motion.div>
               </motion.div>
+            </div>
             </div>
           </Reveal>
         </section>
