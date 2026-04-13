@@ -31,6 +31,14 @@ import { portfolioContentByLocale, type Locale } from "@/lib/portfolio-data";
 
 const actionButtonStyles =
   "inline-flex h-11 items-center justify-center rounded-xl border border-emerald-400/22 bg-white/[0.04] px-5 text-sm font-medium text-slate-100 shadow-[0_10px_26px_rgba(0,0,0,0.22)] transition duration-300 hover:scale-[1.02] hover:border-emerald-300/55 hover:bg-emerald-400/[0.1] hover:shadow-[0_18px_40px_rgba(16,185,129,0.14)]";
+const projectButtonBase =
+  "inline-flex h-10 items-center justify-center rounded-lg px-4 text-sm font-medium transition";
+const projectButtonPrimary =
+  `${projectButtonBase} bg-emerald-300 text-black hover:bg-emerald-200`;
+const projectButtonSecondary =
+  `${projectButtonBase} border border-white/12 bg-white/[0.03] text-slate-100 hover:bg-white/[0.08]`;
+const projectButtonMuted =
+  `${projectButtonBase} border border-white/10 bg-white/[0.02] text-slate-400`;
 
 const cardStyles =
   "rounded-2xl border border-emerald-400/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.035),rgba(255,255,255,0.02))] shadow-[0_18px_50px_rgba(0,0,0,0.44)]";
@@ -94,14 +102,22 @@ export default function PortfolioPage() {
   const heroFocusCards = t.heroFocus?.cards ?? [];
   const heroFocusStack = t.heroFocus?.stack ?? [];
   const projects: {
+    id: "contableapp" | "fade" | "portfolio";
     title: string;
     description: string;
     image: string | null;
     tech: string[];
     bullets?: string[];
+    actions: {
+      label: string;
+      href?: string;
+      variant: "primary" | "secondary" | "muted";
+      external?: boolean;
+    }[];
     featured: boolean;
   }[] = [
     {
+      id: "contableapp",
       title: lang === "es" ? "ContableApp" : "ContableApp",
       description:
         lang === "es"
@@ -123,9 +139,16 @@ export default function PortfolioPage() {
               "Document workflow with status and traceability",
               "Automation of monthly obligations",
             ],
+      actions: [
+        {
+          label: lang === "es" ? "Proyecto en progreso" : "Project in progress",
+          variant: "muted",
+        },
+      ],
       featured: true,
     },
     {
+      id: "fade",
       title: "FADE",
       description:
         lang === "es"
@@ -147,16 +170,33 @@ export default function PortfolioPage() {
               "Mobile-optimized booking flow",
               "Fewer cancellations and idle time",
             ],
+      actions: [
+        {
+          label: lang === "es" ? "Ver aplicación" : "View app",
+          href: "https://fade-app-indol.vercel.app/login",
+          variant: "primary",
+          external: true,
+        },
+      ],
       featured: false,
     },
     {
+      id: "portfolio",
       title: lang === "es" ? "Portfolio profesional" : "Professional Portfolio",
       description:
         lang === "es"
           ? "Sitio personal enfocado en mostrar proyectos reales y cómo están construidos. Diseñado para comunicar arquitectura, decisiones técnicas y enfoque en desarrollo backend y automatización."
           : "Personal site focused on showcasing real projects and how they are built. Designed to communicate architecture decisions and a backend-plus-automation mindset.",
-      image: null,
+      image: "/projects/portfolio-preview.jpg",
       tech: ["Next.js", "TypeScript"],
+      actions: [
+        {
+          label: lang === "es" ? "Ver código" : "View code",
+          href: "https://github.com/Lautaroalt/PortfolioLautaro",
+          variant: "secondary",
+          external: true,
+        },
+      ],
       featured: false,
     },
   ];
@@ -361,7 +401,7 @@ export default function PortfolioPage() {
       <div className="relative mx-auto max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
         <section
           id="top"
-          className="scroll-mt-28 grid min-h-[84vh] items-center gap-12 py-18 lg:grid-cols-[1fr_0.95fr] lg:gap-14"
+          className="scroll-mt-28 grid min-h-[84vh] items-center gap-12 py-12 lg:grid-cols-[1fr_0.95fr] lg:gap-14 lg:py-14"
         >
           <Reveal>
             <div className="max-w-3xl">
@@ -446,7 +486,7 @@ export default function PortfolioPage() {
           </Reveal>
         </section>
 
-        <section id="projects" className="scroll-mt-28 py-16">
+        <section id="projects" className="scroll-mt-28 py-12 lg:py-14">
           <Reveal>
             <SectionHeading
               eyebrow={t.projects.heading}
@@ -460,18 +500,19 @@ export default function PortfolioPage() {
               <motion.article
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.24 }}
-                className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+                className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
               >
-                <div className="group relative h-56 w-full overflow-hidden rounded-xl sm:h-72">
+                <div className="group relative h-48 w-full overflow-hidden rounded-xl border border-white/10 sm:h-56 lg:h-60">
                   {featuredProject.image ? (
                     <>
                       <Image
                         src={featuredProject.image}
                         alt={featuredProject.title}
                         fill
-                        className="object-cover transition duration-300 group-hover:scale-105"
+                        className="object-cover object-top transition duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
                         <span className="text-sm text-white">Ver proyecto</span>
                       </div>
                     </>
@@ -504,6 +545,27 @@ export default function PortfolioPage() {
                       </span>
                     ))}
                   </div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {featuredProject.actions.map((action) =>
+                      action.href ? (
+                        <a
+                          key={action.label}
+                          href={action.href}
+                          target={action.external ? "_blank" : undefined}
+                          rel={action.external ? "noreferrer" : undefined}
+                          className={
+                            action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary
+                          }
+                        >
+                          {action.label}
+                        </a>
+                      ) : (
+                        <span key={action.label} className={projectButtonMuted}>
+                          {action.label}
+                        </span>
+                      ),
+                    )}
+                  </div>
                 </div>
               </motion.article>
             </Reveal>
@@ -527,16 +589,17 @@ export default function PortfolioPage() {
                   transition={{ duration: 0.22 }}
                   className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
                 >
-                  <div className="group relative h-48 w-full overflow-hidden rounded-xl">
+                  <div className="group relative h-48 w-full overflow-hidden rounded-xl border border-white/10 sm:h-52">
                     {project.image ? (
                       <>
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
-                          className="object-cover transition duration-300 group-hover:scale-105"
+                          className="object-cover transition duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
                           <span className="text-sm text-white">Ver proyecto</span>
                         </div>
                       </>
@@ -567,6 +630,27 @@ export default function PortfolioPage() {
                         {item}
                       </span>
                     ))}
+                  </div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.actions.map((action) =>
+                      action.href ? (
+                        <a
+                          key={action.label}
+                          href={action.href}
+                          target={action.external ? "_blank" : undefined}
+                          rel={action.external ? "noreferrer" : undefined}
+                          className={
+                            action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary
+                          }
+                        >
+                          {action.label}
+                        </a>
+                      ) : (
+                        <span key={action.label} className={projectButtonMuted}>
+                          {action.label}
+                        </span>
+                      ),
+                    )}
                   </div>
                 </motion.article>
               </Reveal>
