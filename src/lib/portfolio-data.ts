@@ -42,6 +42,8 @@ export type EducationItem = {
   title: string;
   institution: string;
   type: string;
+  status?: string;
+  startDate?: string;
 };
 
 type PortfolioContent = {
@@ -330,10 +332,16 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       title: "Formación continua",
       description: "Capacitación orientada a desarrollo de software y mejora técnica permanente.",
       items: [
-        { title: "Tecnicatura en Desarrollo de Software", institution: "Instituto Educación Superior 9023", type: "Educación formal" },
-        { title: "Front End React", institution: "CoderHouse", type: "Curso" },
-        { title: "Ciberseguridad y Hacking Ético", institution: "Udemy", type: "Curso" },
-        { title: "Full Stack", institution: "Udemy", type: "Curso" },
+        {
+          title: "Tecnicatura en Desarrollo de Software",
+          institution: "Instituto Educación Superior 9023",
+          type: "Educación formal",
+          status: "En curso",
+          startDate: "Marzo 2026",
+        },
+        { title: "Front End React", institution: "CoderHouse", type: "Curso", status: "Finalizado" },
+        { title: "Ciberseguridad y Hacking Ético", institution: "Udemy", type: "Curso", status: "En curso" },
+        { title: "Full Stack", institution: "Udemy", type: "Curso", status: "En curso" },
       ],
     },
     contact: {
@@ -516,10 +524,16 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       title: "Continuous learning",
       description: "Training focused on software development and technical growth.",
       items: [
-        { title: "Software Development Degree", institution: "Academic training", type: "Formal education" },
-        { title: "Front End React", institution: "CoderHouse", type: "Course" },
-        { title: "Cybersecurity and Ethical Hacking", institution: "Udemy", type: "Course" },
-        { title: "Full Stack", institution: "Udemy", type: "Course" },
+        {
+          title: "Software Development Degree",
+          institution: "Academic training",
+          type: "Formal education",
+          status: "In progress",
+          startDate: "March 2026",
+        },
+        { title: "Front End React", institution: "CoderHouse", type: "Course", status: "Completed" },
+        { title: "Cybersecurity and Ethical Hacking", institution: "Udemy", type: "Course", status: "In progress" },
+        { title: "Full Stack", institution: "Udemy", type: "Course", status: "In progress" },
       ],
     },
     contact: {

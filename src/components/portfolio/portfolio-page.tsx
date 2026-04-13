@@ -202,6 +202,14 @@ export default function PortfolioPage() {
   ];
   const [featuredProject, ...secondaryProjects] = projects;
   const experienceItems = t.experience?.items ?? [];
+  const getEducationBadgeClass = (status?: string) => {
+    if (!status) return "text-xs px-2 py-1 rounded-full border border-white/15 bg-white/[0.03] text-slate-300";
+    const normalized = status.toLowerCase();
+    if (normalized.includes("final") || normalized.includes("complete")) {
+      return "text-xs px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20";
+    }
+    return "text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20";
+  };
   const heroTypingTexts =
     lang === "es"
       ? ["SQL", "Integracion de sistemas", "Automatizacion", "Frontend + Backend"]
@@ -502,14 +510,14 @@ export default function PortfolioPage() {
                 transition={{ duration: 0.24 }}
                 className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
               >
-                <div className="group relative h-48 w-full overflow-hidden rounded-xl border border-white/10 sm:h-56 lg:h-60">
+                <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
                   {featuredProject.image ? (
                     <>
                       <Image
                         src={featuredProject.image}
                         alt={featuredProject.title}
                         fill
-                        className="object-cover object-top transition duration-500 group-hover:scale-105"
+                        className="object-cover object-[center_30%] transition duration-300 group-hover:scale-105"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
@@ -589,14 +597,14 @@ export default function PortfolioPage() {
                   transition={{ duration: 0.22 }}
                   className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
                 >
-                  <div className="group relative h-48 w-full overflow-hidden rounded-xl border border-white/10 sm:h-52">
+                  <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
                     {project.image ? (
                       <>
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
-                          className="object-cover transition duration-500 group-hover:scale-105"
+                          className="object-cover object-center transition duration-300 group-hover:scale-105"
                         />
                         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
@@ -815,10 +823,20 @@ export default function PortfolioPage() {
                           <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-slate-300">
                             {featuredEducation.type}
                           </span>
+                          {featuredEducation.status ? (
+                            <span className={getEducationBadgeClass(featuredEducation.status)}>
+                              {featuredEducation.status}
+                            </span>
+                          ) : null}
                         </div>
                         <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-[1.85rem]">
                           {featuredEducation.title}
                         </h3>
+                        {featuredEducation.startDate ? (
+                          <p className="mt-1 text-sm text-gray-400">
+                            {`${lang === "es" ? "Inicio" : "Start"}: ${featuredEducation.startDate}`}
+                          </p>
+                        ) : null}
                         <p className="mt-3 text-base leading-7 text-slate-200">
                           {featuredEducation.institution}
                         </p>
@@ -873,13 +891,19 @@ export default function PortfolioPage() {
                     >
                       <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 hover:opacity-100" />
                       <div className="flex items-start justify-between gap-3">
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.type}</p>
                           <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
                         </div>
-                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/16 bg-emerald-400/10 text-emerald-200">
-                          <BookOpen className="h-4 w-4" />
-                        </span>
+                        {item.status ? (
+                          <span className={getEducationBadgeClass(item.status)}>
+                            {item.status}
+                          </span>
+                        ) : (
+                          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/16 bg-emerald-400/10 text-emerald-200">
+                            <BookOpen className="h-4 w-4" />
+                          </span>
+                        )}
                       </div>
                       <p className="mt-3 text-sm leading-7 text-slate-300">{item.institution}</p>
                       <div className="mt-4">
