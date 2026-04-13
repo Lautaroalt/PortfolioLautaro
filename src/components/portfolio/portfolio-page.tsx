@@ -409,7 +409,7 @@ export default function PortfolioPage() {
       <div className="relative mx-auto max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
         <section
           id="top"
-          className="scroll-mt-28 grid min-h-[84vh] items-center gap-12 py-12 lg:grid-cols-[1fr_0.95fr] lg:gap-14 lg:py-14"
+          className="scroll-mt-28 grid min-h-[84vh] items-center gap-12 py-8 lg:grid-cols-[1fr_0.95fr] lg:gap-14 lg:py-10"
         >
           <Reveal>
             <div className="max-w-3xl">
@@ -494,7 +494,7 @@ export default function PortfolioPage() {
           </Reveal>
         </section>
 
-        <section id="projects" className="scroll-mt-28 py-12 lg:py-14">
+        <section id="projects" className="scroll-mt-28 py-8 lg:py-10">
           <Reveal>
             <SectionHeading
               eyebrow={t.projects.heading}
@@ -508,9 +508,9 @@ export default function PortfolioPage() {
               <motion.article
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.24 }}
-                className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+                className="mx-auto mt-3 w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-3"
               >
-                <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
+                <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10 lg:aspect-[2.35/1]">
                   {featuredProject.image ? (
                     <>
                       <Image
@@ -531,8 +531,8 @@ export default function PortfolioPage() {
                   )}
                 </div>
                 <div className="mt-5">
-                  <h3 className="text-2xl font-semibold text-white">{featuredProject.title}</h3>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{featuredProject.description}</p>
+                  <h3 className="text-xl font-semibold text-white sm:text-2xl">{featuredProject.title}</h3>
+                  <p className="mt-2 max-w-xl text-sm leading-7 text-slate-300">{featuredProject.description}</p>
                   {featuredProject.bullets?.length ? (
                     <ul className="mt-4 space-y-2 text-sm text-slate-300">
                       {featuredProject.bullets.map((bullet) => (
@@ -543,7 +543,7 @@ export default function PortfolioPage() {
                       ))}
                     </ul>
                   ) : null}
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     {featuredProject.tech.map((item) => (
                       <span
                         key={item}
@@ -553,7 +553,7 @@ export default function PortfolioPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {featuredProject.actions.map((action) =>
                       action.href ? (
                         <a
@@ -584,7 +584,7 @@ export default function PortfolioPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={staggerContainer}
-            className="mt-6 grid gap-5 md:grid-cols-2"
+            className="mt-5 grid gap-5 md:grid-cols-2 md:auto-rows-fr"
           >
             {secondaryProjects.map((project, index) => (
               <Reveal key={project.title} delay={0.02 * (index + 1)}>
@@ -595,7 +595,7 @@ export default function PortfolioPage() {
                   viewport={{ once: true, amount: 0.2 }}
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.22 }}
-                  className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+                  className="flex h-full min-h-[100%] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
                 >
                   <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
                     {project.image ? (
@@ -639,7 +639,7 @@ export default function PortfolioPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="mt-auto flex flex-wrap gap-2 pt-5">
                     {project.actions.map((action) =>
                       action.href ? (
                         <a
