@@ -12,7 +12,6 @@ import {
   Copy,
   Cpu,
   Database,
-  ExternalLink,
   FileCode2,
   GitBranch,
   Globe,
@@ -94,11 +93,74 @@ export default function PortfolioPage() {
   const [featuredEducation, ...secondaryEducation] = educationItems;
   const heroFocusCards = t.heroFocus?.cards ?? [];
   const heroFocusStack = t.heroFocus?.stack ?? [];
-  const featuredProjectBullets = t.projects.featured?.bullets ?? [];
-  const featuredProjectStack = t.projects.featured?.stack ?? [];
-  const featuredProjectLinks = t.projects.featured?.links ?? [];
-  const featuredProjectPreview = t.projects.featured?.preview ?? [];
-  const projectItems = t.projects?.items ?? [];
+  const projects: {
+    title: string;
+    description: string;
+    image: string | null;
+    tech: string[];
+    bullets?: string[];
+    featured: boolean;
+  }[] = [
+    {
+      title: lang === "es" ? "ContableApp" : "ContableApp",
+      description:
+        lang === "es"
+          ? "Plataforma SaaS para estudios contables que centraliza clientes, vencimientos y tareas operativas en un solo sistema. Permite organizar obligaciones fiscales, gestionar comprobantes y optimizar el flujo de trabajo diario del estudio."
+          : "SaaS platform for accounting firms that centralizes clients, deadlines, and operational tasks in one system. It helps organize tax obligations, manage documents, and optimize daily workflow.",
+      image: "/projects/contableapp-preview.jpg",
+      tech: ["FastAPI", "Next.js", "PostgreSQL"],
+      bullets:
+        lang === "es"
+          ? [
+              "Gestión de clientes y vencimientos fiscales",
+              "Seguimiento de tareas por responsable",
+              "Documentación con estado y trazabilidad",
+              "Automatización de obligaciones mensuales",
+            ]
+          : [
+              "Client and tax deadline management",
+              "Task tracking by owner",
+              "Document workflow with status and traceability",
+              "Automation of monthly obligations",
+            ],
+      featured: true,
+    },
+    {
+      title: "FADE",
+      description:
+        lang === "es"
+          ? "Sistema de reservas online diseñado para automatizar la gestión de turnos. Los clientes pueden agendar de forma autónoma mientras el negocio centraliza su agenda, reduce coordinación manual y mejora la disponibilidad."
+          : "Online booking system designed to automate appointment management. Clients can self-schedule while the business centralizes its calendar, reduces manual coordination, and improves availability.",
+      image: "/projects/fade-preview.jpg",
+      tech: ["Next.js", "Tailwind"],
+      bullets:
+        lang === "es"
+          ? [
+              "Reserva de turnos sin registro de usuario",
+              "Gestión automática de disponibilidad",
+              "Flujo optimizado para mobile",
+              "Reducción de cancelaciones y tiempos muertos",
+            ]
+          : [
+              "Appointments without user registration",
+              "Automatic availability management",
+              "Mobile-optimized booking flow",
+              "Fewer cancellations and idle time",
+            ],
+      featured: false,
+    },
+    {
+      title: lang === "es" ? "Portfolio profesional" : "Professional Portfolio",
+      description:
+        lang === "es"
+          ? "Sitio personal enfocado en mostrar proyectos reales y cómo están construidos. Diseñado para comunicar arquitectura, decisiones técnicas y enfoque en desarrollo backend y automatización."
+          : "Personal site focused on showcasing real projects and how they are built. Designed to communicate architecture decisions and a backend-plus-automation mindset.",
+      image: null,
+      tech: ["Next.js", "TypeScript"],
+      featured: false,
+    },
+  ];
+  const [featuredProject, ...secondaryProjects] = projects;
   const experienceItems = t.experience?.items ?? [];
   const heroTypingTexts =
     lang === "es"
@@ -393,219 +455,47 @@ export default function PortfolioPage() {
             />
           </Reveal>
 
-          <Reveal delay={0.08}>
-            <motion.article
-              whileHover={{ y: -6, scale: 1.006 }}
-              transition={{ duration: 0.24 }}
-              className={`${cardStyles} group relative mt-8 overflow-hidden p-6 sm:p-8`}
-            >
-              <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                <div className="absolute -left-16 top-0 h-44 w-44 rounded-full bg-emerald-400/12 blur-3xl" />
-                <div className="absolute -right-20 bottom-0 h-44 w-44 rounded-full bg-emerald-500/10 blur-3xl" />
-              </div>
-              <div className="grid gap-7 lg:grid-cols-[1fr_1fr]">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs uppercase tracking-[0.14em] text-emerald-100">
-                      {t.projects.featured.category}
-                    </span>
-                    <span className="rounded-lg border border-white/12 bg-white/[0.03] px-3 py-1 text-xs text-slate-300">
-                      {t.projects.featured.status}
-                    </span>
-                  </div>
-                  <p className="mt-4 text-base leading-8 text-slate-300">
-                    {t.projects.featured.summary}
-                  </p>
-                  <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                    {featuredProjectBullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-2">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {featuredProjectStack.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-lg border border-white/12 bg-slate-950/80 px-3 py-1.5 text-sm text-slate-200"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {featuredProjectLinks.map((link) =>
-                      link.href ? (
-                        <a
-                          key={link.label}
-                          href={link.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className={actionButtonStyles}
-                        >
-                          {link.label}
-                          <ExternalLink className="ml-2 h-4 w-4" />
-                        </a>
-                      ) : (
-                        <span
-                          key={link.label}
-                          className="inline-flex h-11 items-center rounded-xl border border-white/10 bg-white/[0.02] px-5 text-sm text-slate-400"
-                        >
-                          {`${link.label} (${t.projects.comingSoon.toLowerCase()})`}
-                        </span>
-                      ),
-                    )}
-                  </div>
+          {featuredProject ? (
+            <Reveal delay={0.08}>
+              <motion.article
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.24 }}
+                className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+              >
+                <div className="group relative h-56 w-full overflow-hidden rounded-xl sm:h-72">
+                  {featuredProject.image ? (
+                    <>
+                      <Image
+                        src={featuredProject.image}
+                        alt={featuredProject.title}
+                        fill
+                        className="object-cover transition duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
+                        <span className="text-sm text-white">Ver proyecto</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex h-full items-center justify-center rounded-xl border border-white/10 bg-[linear-gradient(140deg,#0f172a,#111827)] text-sm text-slate-300">
+                      Preview disponible pronto
+                    </div>
+                  )}
                 </div>
-
-                <div className="relative overflow-hidden rounded-xl border border-emerald-400/12 bg-black/65 p-4">
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(52,211,153,0.14),transparent_42%)]" />
-                  <div className="relative rounded-xl border border-emerald-400/10 bg-black/65 p-3">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                      <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
-                        {t.projects.featuredPreviewLabel}
-                      </p>
-                      <span className="rounded-md border border-emerald-500/25 bg-emerald-500/10 px-2 py-1 text-[11px] text-emerald-300">
-                        {t.projects.featured.status}
-                      </span>
-                    </div>
-                    <div className="mt-3 grid gap-2 md:grid-cols-3">
-                      <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-                        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">
-                          {t.projects.featuredStats[0]}
-                        </p>
-                        <p className="mt-1 text-lg font-semibold text-white">128</p>
-                      </div>
-                      <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-                        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">
-                          {t.projects.featuredStats[1]}
-                        </p>
-                        <p className="mt-1 text-lg font-semibold text-white">42</p>
-                      </div>
-                      <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-                        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">
-                          {t.projects.featuredStats[2]}
-                        </p>
-                        <p className="mt-1 text-lg font-semibold text-white">19</p>
-                      </div>
-                    </div>
-                    <div className="mt-3 space-y-2">
-                      {featuredProjectPreview.map((line) => (
-                        <div
-                          key={line}
-                          className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-300"
-                        >
-                          {line}
-                        </div>
+                <div className="mt-5">
+                  <h3 className="text-2xl font-semibold text-white">{featuredProject.title}</h3>
+                  <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{featuredProject.description}</p>
+                  {featuredProject.bullets?.length ? (
+                    <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                      {featuredProject.bullets.map((bullet) => (
+                        <li key={bullet} className="flex items-start gap-2">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
+                          <span>{bullet}</span>
+                        </li>
                       ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.article>
-          </Reveal>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={staggerContainer}
-            className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
-          >
-            {projectItems.map((project, index) => (
-              <Reveal key={project.name} delay={0.02 * (index + 1)}>
-                <motion.article
-                  variants={staggerItem}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  whileHover={{ y: -7, scale: 1.05 }}
-                  transition={{ duration: 0.22 }}
-                  className={`${cardStyles} group relative h-full overflow-hidden p-5`}
-                >
-                  <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                    <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-300/14 blur-2xl" />
-                    <div className="absolute -bottom-8 -left-8 h-28 w-28 rounded-full bg-emerald-500/12 blur-2xl" />
-                  </div>
-                  <div className="relative overflow-hidden rounded-xl border border-emerald-400/12 bg-black/65 p-3">
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(52,211,153,0.12),transparent_50%)]" />
-                    <div className="relative">
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs uppercase tracking-[0.14em] text-emerald-100/80">
-                          {project.category}
-                        </p>
-                        <span className="rounded-md border border-white/12 bg-white/[0.03] px-2 py-1 text-[11px] text-slate-300">
-                          {project.status}
-                        </span>
-                      </div>
-                      {index === 0 ? (
-                        <div className="mt-3 h-40 rounded-lg border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-3">
-                          <div className="grid h-full grid-cols-[1.2fr_0.8fr] gap-2">
-                            <div className="rounded-md border border-white/10 bg-white/[0.03] p-2">
-                              <div className="h-2 w-2/3 rounded bg-emerald-200/40" />
-                              <div className="mt-2 grid gap-1.5">
-                                <div className="h-2 rounded bg-white/10" />
-                                <div className="h-2 rounded bg-white/10" />
-                                <div className="h-2 w-3/4 rounded bg-white/10" />
-                              </div>
-                            </div>
-                            <div className="grid gap-2">
-                              <div className="rounded-md border border-white/10 bg-white/[0.03]" />
-                              <div className="rounded-md border border-white/10 bg-white/[0.03]" />
-                              <div className="rounded-md border border-white/10 bg-white/[0.03]" />
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                      {index === 1 ? (
-                        <div className="mt-3 h-40 rounded-lg border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-3">
-                          <div className="grid h-full grid-rows-[auto_1fr] gap-2">
-                            <div className="rounded-md border border-white/10 bg-white/[0.03] p-2">
-                              <div className="h-2 w-1/2 rounded bg-emerald-200/40" />
-                              <div className="mt-2 h-2 w-full rounded bg-white/10" />
-                            </div>
-                            <div className="rounded-md border border-white/10 bg-white/[0.02] p-2">
-                              <div className="grid h-full grid-cols-3 gap-2">
-                                <div className="rounded bg-white/10" />
-                                <div className="rounded bg-emerald-300/20" />
-                                <div className="rounded bg-white/10" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                      {index === 2 ? (
-                        <div className="mt-3 h-40 rounded-lg border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-3">
-                          <div className="grid h-full grid-cols-2 gap-2">
-                            <div className="rounded-md border border-white/10 bg-white/[0.03] p-2">
-                              <div className="h-2 w-3/5 rounded bg-emerald-200/40" />
-                              <div className="mt-2 grid grid-cols-2 gap-1.5">
-                                <div className="h-8 rounded bg-white/10" />
-                                <div className="h-8 rounded bg-white/10" />
-                                <div className="col-span-2 h-10 rounded bg-white/10" />
-                              </div>
-                            </div>
-                            <div className="grid gap-2">
-                              <div className="rounded-md border border-white/10 bg-white/[0.03]" />
-                              <div className="rounded-md border border-white/10 bg-white/[0.03]" />
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold text-white">{project.name}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-300">{project.summary}</p>
-                  <div className="mt-3 space-y-1.5">
-                      {project.preview?.slice(0, 2).map((line) => (
-                      <p key={line} className="text-xs text-slate-400">
-                        {line}
-                      </p>
-                    ))}
-                  </div>
+                    </ul>
+                  ) : null}
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {project.stack?.map((item) => (
+                    {featuredProject.tech.map((item) => (
                       <span
                         key={item}
                         className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
@@ -614,27 +504,69 @@ export default function PortfolioPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.links?.map((link) =>
-                      link.href ? (
-                        <a
-                          key={link.label}
-                          href={link.href}
-                          target={link.href.startsWith("#") ? undefined : "_blank"}
-                          rel={link.href.startsWith("#") ? undefined : "noreferrer"}
-                          className="inline-flex h-10 items-center rounded-lg border border-white/12 bg-white/[0.03] px-4 text-sm text-slate-100 transition hover:bg-white/[0.08]"
-                        >
-                          {link.label}
-                        </a>
-                      ) : (
-                        <span
-                          key={link.label}
-                          className="inline-flex h-10 items-center rounded-lg border border-white/10 bg-white/[0.02] px-4 text-sm text-slate-400"
-                        >
-                          {`${link.label} (${t.projects.comingSoon.toLowerCase()})`}
-                        </span>
-                      ),
+                </div>
+              </motion.article>
+            </Reveal>
+          ) : null}
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+            className="mt-6 grid gap-5 md:grid-cols-2"
+          >
+            {secondaryProjects.map((project, index) => (
+              <Reveal key={project.title} delay={0.02 * (index + 1)}>
+                <motion.article
+                  variants={staggerItem}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.22 }}
+                  className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+                >
+                  <div className="group relative h-48 w-full overflow-hidden rounded-xl">
+                    {project.image ? (
+                      <>
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
+                          <span className="text-sm text-white">Ver proyecto</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex h-full items-center justify-center rounded-xl border border-white/10 bg-[linear-gradient(140deg,#0f172a,#111827)] text-sm text-slate-300">
+                        Sin preview por ahora
+                      </div>
                     )}
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-white">{project.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-300">{project.description}</p>
+                  {project.bullets?.length ? (
+                    <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                      {project.bullets.map((bullet) => (
+                        <li key={bullet} className="flex items-start gap-2">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.tech.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
+                      >
+                        {item}
+                      </span>
+                    ))}
                   </div>
                 </motion.article>
               </Reveal>
@@ -1001,3 +933,5 @@ export default function PortfolioPage() {
     </main>
   );
 }
+
+
