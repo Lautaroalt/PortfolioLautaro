@@ -8,11 +8,9 @@ import {
   BookOpen,
   Braces,
   Check,
-  Code2,
   Copy,
   Cpu,
   Database,
-  FileCode2,
   GitBranch,
   Globe,
   GraduationCap,
@@ -26,7 +24,6 @@ import { useEffect, useState } from "react";
 import { CvButton } from "@/components/portfolio/cv-button";
 import { Reveal } from "@/components/portfolio/reveal";
 import { SectionHeading } from "@/components/portfolio/section-heading";
-import { TypingText } from "@/components/portfolio/typing-text";
 import { portfolioContentByLocale, type Locale } from "@/lib/portfolio-data";
 
 const actionButtonStyles =
@@ -65,13 +62,9 @@ const staggerItem: Variants = {
 const heroSignalIcons = [Layers3, Server, Database, Workflow];
 
 const skillIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  javascript: Code2,
   typescript: Braces,
-  python: FileCode2,
-  sql: Database,
   react: Activity,
   nextjs: Layers3,
-  tailwind: Braces,
   fastapi: Server,
   nodejs: Server,
   api: Link2,
@@ -80,15 +73,35 @@ const skillIcons: Record<string, React.ComponentType<{ className?: string }>> = 
   git: GitBranch,
   github: Link2,
   linux: Cpu,
-  n8n: Workflow,
+  supabase: Database,
 };
 
 const skillGroupIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  Lenguajes: Code2,
   Frontend: Layers3,
   Backend: Server,
   "Bases de datos": Database,
   Herramientas: Cpu,
+};
+
+type PortfolioProject = {
+  id: "servicios-maipu" | "fade" | "contableapp";
+  title: string;
+  subtitle: string;
+  description: string;
+  problem?: string;
+  solution?: string;
+  badge?: string;
+  image?: string;
+  imageAlt?: string;
+  tech: string[];
+  features?: string[];
+  actions: {
+    label: string;
+    href?: string;
+    variant: "primary" | "secondary" | "muted";
+    external?: boolean;
+  }[];
+  featured: boolean;
 };
 
 export default function PortfolioPage() {
@@ -101,48 +114,56 @@ export default function PortfolioPage() {
   const [featuredEducation, ...secondaryEducation] = educationItems;
   const heroFocusCards = t.heroFocus?.cards ?? [];
   const heroFocusStack = t.heroFocus?.stack ?? [];
-  const projects: {
-    id: "contableapp" | "fade" | "portfolio";
-    title: string;
-    description: string;
-    image: string | null;
-    tech: string[];
-    bullets?: string[];
-    actions: {
-      label: string;
-      href?: string;
-      variant: "primary" | "secondary" | "muted";
-      external?: boolean;
-    }[];
-    featured: boolean;
-  }[] = [
+  const projects: PortfolioProject[] = [
     {
-      id: "contableapp",
-      title: lang === "es" ? "ContableApp" : "ContableApp",
+      id: "servicios-maipu",
+      badge: lang === "es" ? "Destacado" : "Featured",
+      title: "Servicios Maipú",
+      subtitle:
+        lang === "es"
+          ? "Sistema de gestión logística y operativa"
+          : "Logistics and operations management system",
       description:
         lang === "es"
-          ? "Plataforma SaaS para estudios contables que centraliza clientes, vencimientos y tareas operativas en un solo sistema. Permite organizar obligaciones fiscales, gestionar comprobantes y optimizar el flujo de trabajo diario del estudio."
-          : "SaaS platform for accounting firms that centralizes clients, deadlines, and operational tasks in one system. It helps organize tax obligations, manage documents, and optimize daily workflow.",
-      image: "/projects/contableapp-preview.jpg",
-      tech: ["FastAPI", "Next.js", "PostgreSQL"],
-      bullets:
+          ? "Plataforma web y mobile para administrar entregas, retiros, remitos, clientes, cobros y seguimiento operativo en tiempo real."
+          : "Web and mobile platform to manage deliveries, pickups, delivery notes, clients, collections, and real-time operational tracking.",
+      problem:
+        lang === "es"
+          ? "La operación se realizaba mediante procesos manuales, seguimiento disperso y control administrativo descentralizado."
+          : "Operations relied on manual processes, scattered tracking, and decentralized administrative control.",
+      solution:
+        lang === "es"
+          ? "Plataforma web y mobile para centralizar clientes, remitos, cobros, entregas y seguimiento operativo en tiempo real."
+          : "Web and mobile platform to centralize clients, delivery notes, collections, deliveries, and real-time operational tracking.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Tailwind", "Realtime", "PDF"],
+      features:
         lang === "es"
           ? [
-              "Gestión de clientes y vencimientos fiscales",
-              "Seguimiento de tareas por responsable",
-              "Documentación con estado y trazabilidad",
-              "Automatización de obligaciones mensuales",
+              "Gestión de clientes y deuda",
+              "Asignación de trabajos",
+              "Entrega y retiro de contenedores",
+              "Firma digital en campo",
+              "Remitos PDF",
+              "Cobros y seguimiento financiero",
+              "Mapa operativo",
+              "Sincronización en tiempo real",
             ]
           : [
-              "Client and tax deadline management",
-              "Task tracking by owner",
-              "Document workflow with status and traceability",
-              "Automation of monthly obligations",
+              "Client and debt management",
+              "Work assignment",
+              "Container delivery and pickup",
+              "Field digital signature",
+              "PDF delivery notes",
+              "Collections and financial tracking",
+              "Operations map",
+              "Real-time synchronization",
             ],
       actions: [
         {
-          label: lang === "es" ? "Proyecto en progreso" : "Project in progress",
-          variant: "muted",
+          label: lang === "es" ? "Ver proyecto" : "View project",
+          href: "https://serviciosmaipu.vercel.app/",
+          variant: "primary",
+          external: true,
         },
       ],
       featured: true,
@@ -150,29 +171,17 @@ export default function PortfolioPage() {
     {
       id: "fade",
       title: "FADE",
+      image: "/projects/fade-preview.jpg",
+      imageAlt: "Preview de FADE",
+      subtitle: lang === "es" ? "Sistema de reservas online" : "Online booking system",
       description:
         lang === "es"
-          ? "Sistema de reservas online diseñado para automatizar la gestión de turnos. Los clientes pueden agendar de forma autónoma mientras el negocio centraliza su agenda, reduce coordinación manual y mejora la disponibilidad."
-          : "Online booking system designed to automate appointment management. Clients can self-schedule while the business centralizes its calendar, reduces manual coordination, and improves availability.",
-      image: "/projects/fade-preview.jpg",
-      tech: ["Next.js", "Tailwind"],
-      bullets:
-        lang === "es"
-          ? [
-              "Reserva de turnos sin registro de usuario",
-              "Gestión automática de disponibilidad",
-              "Flujo optimizado para mobile",
-              "Reducción de cancelaciones y tiempos muertos",
-            ]
-          : [
-              "Appointments without user registration",
-              "Automatic availability management",
-              "Mobile-optimized booking flow",
-              "Fewer cancellations and idle time",
-            ],
+          ? "Plataforma SaaS para gestión de reservas, pagos y administración multi-empresa."
+          : "SaaS platform for booking management, payments, and multi-company administration.",
+      tech: ["Next.js", "TypeScript", "PostgreSQL", "Mercado Pago"],
       actions: [
         {
-          label: lang === "es" ? "Ver aplicación" : "View app",
+          label: lang === "es" ? "Ver proyecto" : "View project",
           href: "https://fade-app-indol.vercel.app/login",
           variant: "primary",
           external: true,
@@ -181,26 +190,43 @@ export default function PortfolioPage() {
       featured: false,
     },
     {
-      id: "portfolio",
-      title: lang === "es" ? "Portfolio profesional" : "Professional Portfolio",
+      id: "contableapp",
+      badge: lang === "es" ? "En desarrollo" : "In development",
+      title: "ContableApp",
+      image: "/projects/contableapp-preview.jpg",
+      imageAlt: "Preview de ContableApp",
+      subtitle: lang === "es" ? "Plataforma contable SaaS" : "Accounting SaaS platform",
       description:
         lang === "es"
-          ? "Sitio personal enfocado en mostrar proyectos reales y cómo están construidos. Diseñado para comunicar arquitectura, decisiones técnicas y enfoque en desarrollo backend y automatización."
-          : "Personal site focused on showcasing real projects and how they are built. Designed to communicate architecture decisions and a backend-plus-automation mindset.",
-      image: "/projects/portfolio-preview.jpg",
-      tech: ["Next.js", "TypeScript"],
+          ? "Sistema para estudios contables que centraliza clientes, vencimientos y tareas operativas."
+          : "System for accounting firms that centralizes clients, deadlines, and operational tasks.",
+      tech: ["FastAPI", "Next.js", "PostgreSQL"],
       actions: [
         {
-          label: lang === "es" ? "Ver código" : "View code",
-          href: "https://github.com/Lautaroalt/PortfolioLautaro",
-          variant: "secondary",
-          external: true,
+          label: lang === "es" ? "En desarrollo" : "In development",
+          variant: "muted",
         },
       ],
       featured: false,
     },
   ];
   const [featuredProject, ...secondaryProjects] = projects;
+  const projectMetrics =
+    lang === "es"
+      ? [
+          { value: "+10", label: "Módulos implementados" },
+          { value: "2", label: "Roles de usuario" },
+          { value: "Web + Mobile", label: "Plataforma responsiva" },
+          { value: "Tiempo real", label: "Datos sincronizados" },
+          { value: "Operación real", label: "Sistema en uso activo" },
+        ]
+      : [
+          { value: "+10", label: "Implemented modules" },
+          { value: "2", label: "User roles" },
+          { value: "Web + Mobile", label: "Responsive platform" },
+          { value: "Real time", label: "Synced data" },
+          { value: "Real operation", label: "Active production use" },
+        ];
   const experienceItems = t.experience?.items ?? [];
   const getEducationBadgeClass = (status?: string) => {
     if (!status) return "text-xs px-2 py-1 rounded-full border border-white/15 bg-white/[0.03] text-slate-300";
@@ -210,21 +236,11 @@ export default function PortfolioPage() {
     }
     return "text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20";
   };
-  const heroTypingTexts =
-    lang === "es"
-      ? ["SQL", "Integracion de sistemas", "Automatizacion", "Frontend + Backend"]
-      : ["SQL", "Systems Integration", "Automation", "Frontend + Backend"];
   const skillsFallbackByTitle: Record<string, { name: string; icon: string }[]> = {
-    Lenguajes: [
-      { name: "JavaScript", icon: "javascript" },
-      { name: "TypeScript", icon: "typescript" },
-      { name: "Python", icon: "python" },
-      { name: "SQL", icon: "sql" },
-    ],
     Frontend: [
       { name: "React", icon: "react" },
       { name: "Next.js", icon: "nextjs" },
-      { name: "Tailwind", icon: "tailwind" },
+      { name: "TypeScript", icon: "typescript" },
     ],
     Backend: [
       { name: "FastAPI", icon: "fastapi" },
@@ -237,9 +253,8 @@ export default function PortfolioPage() {
     ],
     Herramientas: [
       { name: "Git", icon: "git" },
-      { name: "GitHub", icon: "github" },
       { name: "Linux", icon: "linux" },
-      { name: "n8n", icon: "n8n" },
+      { name: "Supabase", icon: "supabase" },
     ],
   };
 
@@ -413,12 +428,11 @@ export default function PortfolioPage() {
         >
           <Reveal>
             <div className="max-w-3xl">
-              <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[4.25rem] lg:leading-[1.02]">
+              <h1 className="max-w-3xl whitespace-pre-line text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[4.25rem] lg:leading-[1.02]">
                 {t.hero.headline}
               </h1>
               <p className="mt-5 text-lg font-medium text-emerald-100/90 sm:text-[1.35rem]">
-                <span className="mr-2">Backend / Frontend /</span>
-                <TypingText texts={heroTypingTexts} />
+                {t.hero.subheadline}
               </p>
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-[1.05rem]">
                 {t.hero.description}
@@ -506,73 +520,116 @@ export default function PortfolioPage() {
           {featuredProject ? (
             <Reveal delay={0.08}>
               <motion.article
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -4 }}
                 transition={{ duration: 0.24 }}
-                className="mx-auto mt-3 w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-3"
+                className="relative mt-8 overflow-hidden rounded-2xl border border-emerald-300/22 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(255,255,255,0.035)_34%,rgba(245,158,11,0.07))] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.46)] sm:p-8 lg:p-9"
               >
-                <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10 lg:aspect-[2.35/1]">
-                  {featuredProject.image ? (
-                    <>
-                      <Image
-                        src={featuredProject.image}
-                        alt={featuredProject.title}
-                        fill
-                        className="object-cover object-[center_30%] transition duration-300 group-hover:scale-105"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
-                        <span className="text-sm text-white">Ver proyecto</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex h-full items-center justify-center rounded-xl border border-white/10 bg-[linear-gradient(140deg,#0f172a,#111827)] text-sm text-slate-300">
-                      Preview disponible pronto
-                    </div>
-                  )}
-                </div>
-                <div className="mt-5">
-                  <h3 className="text-xl font-semibold text-white sm:text-2xl">{featuredProject.title}</h3>
-                  <p className="mt-2 max-w-xl text-sm leading-7 text-slate-300">{featuredProject.description}</p>
-                  {featuredProject.bullets?.length ? (
-                    <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                      {featuredProject.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {featuredProject.tech.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {featuredProject.actions.map((action) =>
-                      action.href ? (
-                        <a
-                          key={action.label}
-                          href={action.href}
-                          target={action.external ? "_blank" : undefined}
-                          rel={action.external ? "noreferrer" : undefined}
-                          className={
-                            action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary
-                          }
-                        >
-                          {action.label}
-                        </a>
-                      ) : (
-                        <span key={action.label} className={projectButtonMuted}>
-                          {action.label}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(250,204,21,0.16),transparent_28%),radial-gradient(circle_at_12%_86%,rgba(16,185,129,0.14),transparent_34%)]" />
+                <div className="relative grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-stretch lg:gap-12">
+                  <div className="order-2 lg:order-1">
+                    <div className="flex flex-wrap items-center gap-3">
+                      {featuredProject.badge ? (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-yellow-300/28 bg-yellow-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-yellow-100">
+                          <span className="h-1.5 w-1.5 rounded-full bg-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.8)]" />
+                          {featuredProject.badge}
                         </span>
-                      ),
-                    )}
+                      ) : null}
+                      <span className="rounded-full border border-emerald-300/24 bg-emerald-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-emerald-100">
+                        Web + Mobile
+                      </span>
+                    </div>
+
+                    <h3 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                      {featuredProject.title}
+                    </h3>
+                    <p className="mt-2 text-base font-medium text-emerald-100/90">
+                      {featuredProject.subtitle}
+                    </p>
+                    <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 sm:text-base">
+                      {featuredProject.description}
+                    </p>
+
+                    {featuredProject.problem && featuredProject.solution ? (
+                      <div className="mt-6 grid gap-3 rounded-2xl border border-white/10 bg-black/24 p-4">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-200">
+                            {lang === "es" ? "Problema" : "Problem"}
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-slate-300">
+                            {featuredProject.problem}
+                          </p>
+                        </div>
+                        <div className="border-t border-white/10 pt-3">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-200">
+                            {lang === "es" ? "Solución" : "Solution"}
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-slate-300">
+                            {featuredProject.solution}
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {featuredProject.features?.length ? (
+                      <div className="mt-6 flex flex-wrap gap-2.5">
+                        {featuredProject.features.map((feature) => (
+                          <span
+                            key={feature}
+                            className="rounded-lg border border-emerald-300/14 bg-black/24 px-3 py-1.5 text-xs text-slate-200 shadow-[0_8px_20px_rgba(0,0,0,0.18)]"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    <div className="mt-6 flex flex-wrap gap-2.5">
+                      {featuredProject.tech.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-lg border border-white/10 bg-white/[0.035] px-2.5 py-1 text-xs text-slate-300"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-7 flex flex-wrap gap-2.5">
+                      {featuredProject.actions.map((action) =>
+                        action.href ? (
+                          <a
+                            key={action.label}
+                            href={action.href}
+                            target={action.external ? "_blank" : undefined}
+                            rel={action.external ? "noopener noreferrer" : undefined}
+                            className={
+                              action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary
+                            }
+                          >
+                            {action.label}
+                          </a>
+                        ) : (
+                          <span key={action.label} className={projectButtonMuted}>
+                            {action.label}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="order-1 flex flex-col lg:order-2">
+                    <div className="relative flex min-h-[320px] flex-1 overflow-hidden rounded-2xl border border-emerald-300/16 bg-[#050806] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.38)] sm:min-h-[420px] lg:min-h-[540px]">
+                      <Image
+                        src="/projects/serviciosmaipu-preview.jpeg"
+                        alt="Preview de Servicios Maipú"
+                        fill
+                        className="rounded-2xl object-contain p-3"
+                        sizes="(min-width: 1024px) 620px, 100vw"
+                      />
+                    </div>
+                    <p className="mt-3 text-center text-xs font-medium text-slate-400">
+                      Dashboard Mobile • Cobros • Login • Remitos PDF
+                    </p>
                   </div>
                 </div>
               </motion.article>
@@ -584,7 +641,7 @@ export default function PortfolioPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={staggerContainer}
-            className="mt-5 grid gap-5 md:grid-cols-2 md:auto-rows-fr"
+            className="mt-6 grid gap-5 lg:grid-cols-2"
           >
             {secondaryProjects.map((project, index) => (
               <Reveal key={project.title} delay={0.02 * (index + 1)}>
@@ -595,75 +652,75 @@ export default function PortfolioPage() {
                   viewport={{ once: true, amount: 0.2 }}
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.22 }}
-                  className="flex h-full min-h-[100%] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f1a] p-4 sm:p-5"
+                  className="grid h-full overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0b0f1a] shadow-[0_14px_36px_rgba(0,0,0,0.28)] transition duration-300 hover:-translate-y-1 hover:border-emerald-300/20 hover:shadow-[0_22px_58px_rgba(0,0,0,0.38)] sm:grid-cols-[0.9fr_1.1fr]"
                 >
-                  <div className="group relative w-full aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
+                  <div className="relative min-h-[210px] border-b border-white/10 bg-black/35 p-3 sm:min-h-full sm:border-b-0 sm:border-r">
                     {project.image ? (
-                      <>
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="object-cover object-center transition duration-300 group-hover:scale-105"
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-black/20" />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition duration-300 group-hover:opacity-100">
-                          <span className="text-sm text-white">Ver proyecto</span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex h-full items-center justify-center rounded-xl border border-white/10 bg-[linear-gradient(140deg,#0f172a,#111827)] text-sm text-slate-300">
-                        Sin preview por ahora
-                      </div>
-                    )}
+                      <Image
+                        src={project.image}
+                        alt={project.imageAlt ?? project.title}
+                        fill
+                        className="object-contain p-3 transition duration-300 hover:scale-[1.01]"
+                        sizes="(min-width: 1024px) 320px, 100vw"
+                      />
+                    ) : null}
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold text-white">{project.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-300">{project.description}</p>
-                  {project.bullets?.length ? (
-                    <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                      {project.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.tech.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
-                      >
-                        {item}
+                  <div className="flex min-h-[280px] flex-col p-5 sm:p-6">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="rounded-full border border-emerald-300/18 bg-emerald-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-emerald-100">
+                        {project.subtitle}
                       </span>
-                    ))}
-                  </div>
-                  <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                    {project.actions.map((action) =>
-                      action.href ? (
-                        <a
-                          key={action.label}
-                          href={action.href}
-                          target={action.external ? "_blank" : undefined}
-                          rel={action.external ? "noreferrer" : undefined}
-                          className={
-                            action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary
-                          }
-                        >
-                          {action.label}
-                        </a>
-                      ) : (
-                        <span key={action.label} className={projectButtonMuted}>
-                          {action.label}
+                      {project.badge ? (
+                        <span className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[11px] text-slate-300">
+                          {project.badge}
                         </span>
-                      ),
-                    )}
+                      ) : null}
+                    </div>
+                    <h3 className="mt-5 text-2xl font-semibold text-white">{project.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-300">{project.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2.5">
+                      {project.tech.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-lg border border-white/10 bg-white/[0.02] px-2.5 py-1 text-xs text-slate-300"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                      {project.actions.map((action) =>
+                        action.href ? (
+                          <a
+                            key={action.label}
+                            href={action.href}
+                            target={action.external ? "_blank" : undefined}
+                            rel={action.external ? "noopener noreferrer" : undefined}
+                            className={action.variant === "primary" ? projectButtonPrimary : projectButtonSecondary}
+                          >
+                            {action.label}
+                          </a>
+                        ) : (
+                          <span key={action.label} className={projectButtonMuted}>
+                            {action.label}
+                          </span>
+                        ),
+                      )}
+                    </div>
                   </div>
                 </motion.article>
               </Reveal>
             ))}
           </motion.div>
+
+          <div className="mt-5 grid gap-3 rounded-2xl border border-emerald-300/14 bg-black/35 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.3)] sm:grid-cols-2 lg:grid-cols-5">
+            {projectMetrics.map((metric) => (
+              <div key={metric.label} className="rounded-xl border border-white/10 bg-white/[0.025] p-4">
+                <p className="text-lg font-semibold text-white">{metric.value}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{metric.label}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section id="skills" className="scroll-mt-28 py-16">
@@ -679,10 +736,10 @@ export default function PortfolioPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={staggerContainer}
-            className="mt-10 grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-5"
+            className="mt-10 grid auto-rows-[1fr] gap-6 sm:grid-cols-2 xl:grid-cols-4"
           >
             {skillsForRender.map((group, index) => (
-              <Reveal key={group.title} delay={0.02 * index}>
+              <Reveal key={group.title} delay={0.02 * index} className="h-full">
                 <motion.article
                   variants={staggerItem}
                   initial="hidden"
@@ -690,14 +747,14 @@ export default function PortfolioPage() {
                   viewport={{ once: true, amount: 0.2 }}
                   whileHover={{ y: -8, scale: 1.012 }}
                   transition={{ duration: 0.24, ease: "easeOut" }}
-                  className={`${cardStyles} group relative h-full min-h-[250px] overflow-hidden p-5`}
+                  className={`${cardStyles} group relative flex h-full min-h-[320px] flex-col overflow-hidden p-5 sm:p-6`}
                 >
                   <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
                     <div className="absolute -left-12 -top-14 h-36 w-36 rounded-full bg-emerald-400/18 blur-3xl" />
                     <div className="absolute -bottom-10 -right-8 h-28 w-28 rounded-full bg-emerald-500/14 blur-3xl" />
                   </div>
-                  <div className="relative">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="relative flex h-full flex-col">
+                    <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
                       <div className="flex items-center gap-3">
                         <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.03]">
                           {(() => {
@@ -712,7 +769,7 @@ export default function PortfolioPage() {
                       </span>
                     </div>
 
-                    <div className="mt-4 grid content-start gap-2.5">
+                    <div className="mt-5 grid flex-1 content-start gap-3">
                       {group.items.length > 0 ? group.items.map((item) => {
                         const Icon = skillIcons[item.icon] ?? Braces;
                         return (
@@ -760,11 +817,31 @@ export default function PortfolioPage() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                   whileHover={{ y: -4 }}
-                  className={`${cardStyles} h-full p-6`}
+                  className={`${cardStyles} h-full overflow-hidden p-6 ${
+                    index === 0
+                      ? "border-emerald-300/26 bg-[linear-gradient(145deg,rgba(16,185,129,0.13),rgba(255,255,255,0.035)_34%,rgba(0,0,0,0.14))]"
+                      : ""
+                  }`}
                 >
-                  <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.period}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.period}</p>
+                    {index === 0 ? (
+                      <span className="rounded-full border border-emerald-300/24 bg-emerald-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
+                        {lang === "es" ? "Experiencia actual" : "Current experience"}
+                      </span>
+                    ) : null}
+                  </div>
                   <h3 className="mt-2 text-xl font-semibold text-white">{item.company}</h3>
                   <p className="mt-1 text-sm text-emerald-100/90">{item.role}</p>
+                  {index === 0 ? (
+                    <div className="mt-4 rounded-xl border border-white/10 bg-black/24 px-4 py-3">
+                      <p className="text-sm font-medium text-slate-100">
+                        {lang === "es"
+                          ? "+3 años trabajando con sistemas en producción"
+                          : "+3 years working with production systems"}
+                      </p>
+                    </div>
+                  ) : null}
                   <ul className="mt-4 space-y-2 text-sm text-slate-300">
                     {item.highlights?.map((highlight) => (
                       <motion.li
@@ -794,14 +871,14 @@ export default function PortfolioPage() {
               description={t.education.description}
             />
           </Reveal>
-          <div className="relative mt-8">
+          <div className="relative mt-8 overflow-hidden rounded-[1.75rem]">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_left_top,rgba(52,211,153,0.12),transparent_62%)]" />
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
               variants={staggerContainer}
-              className="relative grid gap-4"
+              className="relative grid gap-5"
             >
               {featuredEducation ? (
                 <Reveal delay={0.02}>
@@ -811,10 +888,10 @@ export default function PortfolioPage() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
                     whileHover={{ y: -6, scale: 1.01 }}
-                    className="overflow-hidden rounded-[1.75rem] border border-emerald-400/22 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(255,255,255,0.04)_36%,rgba(0,0,0,0.22))] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.42)]"
+                    className="relative overflow-hidden rounded-[1.75rem] border border-emerald-400/22 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(255,255,255,0.04)_36%,rgba(0,0,0,0.22))] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.42)] sm:p-7"
                   >
-                    <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-                      <div className="max-w-2xl">
+                    <div className="relative">
+                      <div className="max-w-3xl">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-100">
                             <GraduationCap className="h-3.5 w-3.5" />
@@ -832,39 +909,13 @@ export default function PortfolioPage() {
                         <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-[1.85rem]">
                           {featuredEducation.title}
                         </h3>
-                        {featuredEducation.startDate ? (
-                          <p className="mt-1 text-sm text-gray-400">
-                            {`${lang === "es" ? "Inicio" : "Start"}: ${featuredEducation.startDate}`}
-                          </p>
-                        ) : null}
                         <p className="mt-3 text-base leading-7 text-slate-200">
                           {featuredEducation.institution}
                         </p>
-                        <div className="mt-5 flex flex-wrap gap-2">
+                        <div className="mt-6 flex flex-wrap gap-2.5">
                           <span className="rounded-lg border border-emerald-400/18 bg-black/25 px-3 py-1.5 text-sm text-emerald-100">
-                            Base solida para desarrollo de software
+                            {featuredEducation.status}
                           </span>
-                          <span className="rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-sm text-slate-300">
-                            Enfoque tecnico y continuidad
-                          </span>
-                        </div>
-                      </div>
-                      <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                        <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                            Institucion
-                          </p>
-                          <p className="mt-2 text-sm text-slate-200">
-                            {featuredEducation.institution}
-                          </p>
-                        </div>
-                        <div className="rounded-2xl border border-emerald-400/16 bg-emerald-400/10 p-4">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-emerald-100/80">
-                            Perfil
-                          </p>
-                          <p className="mt-2 text-sm text-emerald-50">
-                            Formacion orientada a construir producto, backend y sistemas reales.
-                          </p>
                         </div>
                       </div>
                     </div>
@@ -877,26 +928,26 @@ export default function PortfolioPage() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.15 }}
                 variants={staggerContainer}
-                className="grid gap-4 md:grid-cols-3"
+                className="grid auto-rows-[1fr] gap-5 md:grid-cols-3"
               >
                 {secondaryEducation.map((item, index) => (
-                  <Reveal key={item.title} delay={0.03 * index}>
+                  <Reveal key={item.title} delay={0.03 * index} className="h-full">
                     <motion.article
                       variants={staggerItem}
                       initial="hidden"
                       whileInView="visible"
                       viewport={{ once: true, amount: 0.2 }}
                       whileHover={{ y: -6, scale: 1.015 }}
-                      className={`${cardStyles} relative overflow-hidden p-5 transition-shadow duration-300 hover:border-emerald-300/30 hover:shadow-[0_18px_40px_rgba(16,185,129,0.12)]`}
+                      className={`${cardStyles} relative flex h-full min-h-[230px] flex-col overflow-hidden p-5 transition-shadow duration-300 hover:border-emerald-300/30 hover:shadow-[0_18px_40px_rgba(16,185,129,0.12)] sm:p-6`}
                     >
                       <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 hover:opacity-100" />
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="relative flex items-start justify-between gap-4">
                         <div className="min-w-0">
                           <p className="text-xs uppercase tracking-[0.14em] text-slate-500">{item.type}</p>
                           <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
                         </div>
                         {item.status ? (
-                          <span className={getEducationBadgeClass(item.status)}>
+                          <span className={`${getEducationBadgeClass(item.status)} shrink-0`}>
                             {item.status}
                           </span>
                         ) : (
@@ -905,8 +956,8 @@ export default function PortfolioPage() {
                           </span>
                         )}
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-300">{item.institution}</p>
-                      <div className="mt-4">
+                      <p className="relative mt-4 text-sm leading-7 text-slate-300">{item.institution}</p>
+                      <div className="relative mt-auto pt-5">
                         <span className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-slate-300">
                           Formacion complementaria
                         </span>
@@ -976,8 +1027,30 @@ export default function PortfolioPage() {
                     className="rounded-2xl border border-emerald-400/16 bg-emerald-400/10 p-5 shadow-[0_18px_44px_rgba(16,185,129,0.12)]"
                   >
                     <p className="text-sm font-medium text-emerald-50">
-                      Hablemos si necesitás alguien que pueda moverse con comodidad entre producto, backend, frontend y datos.
+                      {lang === "es"
+                        ? "Buscando nuevos desafíos en desarrollo de software, backend, automatización y sistemas de gestión."
+                        : "Looking for new challenges in software development, backend, automation, and management systems."}
                     </p>
+                    <div className="mt-5 rounded-xl border border-white/10 bg-black/24 p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100/80">
+                        {lang === "es" ? "Disponible para" : "Available for"}
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {[
+                          "Full Stack Developer Jr",
+                          "Backend Developer Jr",
+                          "QA Automation",
+                          "Software Developer",
+                        ].map((role) => (
+                          <span
+                            key={role}
+                            className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs text-slate-200"
+                          >
+                            {role}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                     <div className="mt-5 flex flex-wrap gap-2">
                       <a
                         href={`mailto:${t.contact.email}`}
@@ -1041,5 +1114,3 @@ export default function PortfolioPage() {
     </main>
   );
 }
-
-

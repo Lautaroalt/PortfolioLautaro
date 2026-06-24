@@ -124,20 +124,11 @@ type PortfolioContent = {
 
 const sharedSkills: SkillGroup[] = [
   {
-    title: "Lenguajes",
-    items: [
-      { name: "JavaScript", icon: "javascript" },
-      { name: "TypeScript", icon: "typescript" },
-      { name: "Python", icon: "python" },
-      { name: "SQL", icon: "sql" },
-    ],
-  },
-  {
     title: "Frontend",
     items: [
       { name: "React", icon: "react" },
       { name: "Next.js", icon: "nextjs" },
-      { name: "Tailwind", icon: "tailwind" },
+      { name: "TypeScript", icon: "typescript" },
     ],
   },
   {
@@ -159,9 +150,8 @@ const sharedSkills: SkillGroup[] = [
     title: "Herramientas",
     items: [
       { name: "Git", icon: "git" },
-      { name: "GitHub", icon: "github" },
       { name: "Linux", icon: "linux" },
-      { name: "n8n", icon: "n8n" },
+      { name: "Supabase", icon: "supabase" },
     ],
   },
 ];
@@ -181,26 +171,26 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       contact: "Contactar",
     },
     hero: {
-      headline: "Full Stack Developer enfocado en sistemas reales",
-      subheadline: "Backend · Frontend · SQL · Integración de sistemas",
+      headline: "Full Stack Developer para sistemas reales",
+      subheadline: "Backend · Frontend · Integración de sistemas · Datos",
       description:
-        "Construyo software que se usa en operación real: sistemas con datos, trazabilidad y procesos claros. No solo interfaces, sino soluciones completas que funcionan en el día a día.",
+        "Desarrollo software para operación real: sistemas internos, paneles administrativos, gestión de datos, trazabilidad y automatización de procesos. Me enfoco en soluciones claras, usables y sostenibles para el día a día.",
       viewProjects: "Ver proyectos",
       downloadCv: "Descargar CV",
       linkedin: "Contactar",
       github: "GitHub",
     },
     heroFocus: {
-      title: "Current focus",
-      status: "Building",
-      stackLabel: "Stack",
+      title: "Stack principal",
+      status: "En uso",
+      stackLabel: "Stack principal",
       cards: [
         { title: "Frontend", value: "Interfaces claras para operación" },
         { title: "Backend", value: "APIs y lógica de negocio" },
-        { title: "Data", value: "SQL y trazabilidad" },
-        { title: "Integration", value: "Automatización y sistemas conectados" },
+        { title: "Datos", value: "SQL y trazabilidad confiable" },
+        { title: "Integración", value: "Automatización y sistemas conectados" },
       ],
-      stack: ["React", "Next.js", "Tailwind", "FastAPI"],
+      stack: ["React", "Next.js", "TypeScript", "Tailwind", "Supabase", "PostgreSQL", "FastAPI"],
     },
     about: {
       heading: "Sobre mí",
@@ -208,9 +198,9 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       body: "Construyo producto, backend, automatizaciones y flujos de datos para sistemas que necesitan claridad, trazabilidad y uso diario.",
     },
     projects: {
-      heading: "Proyectos destacados",
-      title: "Mis proyectos",
-      description: "Proyectos reales en los que trabajé o estoy desarrollando.",
+      heading: "Proyectos destacados ⭐",
+      title: "Sistemas reales en los que trabajo",
+      description: "Sistemas reales en los que trabajo",
       featuredPreviewLabel: "Vista del producto",
       featuredStats: ["Clientes", "Vencimientos", "Tareas activas"],
       featured: {
@@ -300,19 +290,23 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
     },
     experience: {
       heading: "Experiencia",
-      title: "Trabajo en contextos con operación real",
-      description: "Experiencia en soporte, implementación y mejora de procesos en entornos productivos.",
-      intro: "Experiencia en entornos productivos con datos reales, incidencias y operación diaria.",
+      title: "Experiencia profesional",
+      description: "Experiencia en soporte, implementación, análisis de datos y mejora de procesos en entornos productivos.",
+      intro: "Soporte técnico, datos, integraciones y validación funcional aplicados a sistemas en uso real.",
       items: [
         {
-          company: "Foca Software",
+          company: "FOCA Software",
           role: "Help Desk IT / Implementador Técnico",
           period: "Actualidad",
           highlights: [
-            "Resolución de incidencias en entornos productivos, diagnóstico de problemas y mejora de procesos operativos.",
-            "Validación y gestión de datos con SQL Server para soporte e implementación.",
-            "Integración de APIs y sistemas para resolver necesidades internas y de clientes.",
-            "Implementación, seguimiento y soporte técnico sobre procesos de uso diario.",
+            "Resolución y análisis de incidencias en entornos productivos.",
+            "Validación y control de datos mediante consultas SQL.",
+            "Implementación y configuración de sistemas para clientes.",
+            "Integración y verificación de APIs y procesos operativos.",
+            "Diagnóstico de errores funcionales y técnicos.",
+            "Soporte a procesos críticos de facturación, cobranzas y operación diaria.",
+            "Participación en pruebas funcionales y validación de correcciones.",
+            "Automatización y optimización de tareas operativas.",
           ],
         },
         {
@@ -320,9 +314,11 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
           role: "Administrativo Contable",
           period: "Experiencia previa",
           highlights: [
-            "Digitalización de procesos administrativos para reducir trabajo manual.",
-            "Gestión diaria de tareas administrativas y contables con foco operativo.",
-            "Organización de información y mejora de procesos con herramientas digitales.",
+            "Facturación y control administrativo.",
+            "Gestión de proveedores, pagos y documentación.",
+            "Organización y seguimiento de procesos contables.",
+            "Manejo de información financiera y administrativa.",
+            "Optimización de tareas operativas y control interno.",
           ],
         },
       ],
@@ -374,26 +370,26 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       contact: "Contact",
     },
     hero: {
-      headline: "Full Stack Developer focused on real systems",
-      subheadline: "Backend · Frontend · SQL · Systems integration",
+      headline: "Full Stack Developer for real systems",
+      subheadline: "Backend · Frontend · Systems integration · Data",
       description:
-        "I build software used in real operations: systems with data, traceability, and clear processes. Not just interfaces, but complete solutions that work day to day.",
+        "I build software for real operations: internal systems, admin panels, data management, traceability, and process automation. I focus on clear, usable, and sustainable solutions for day-to-day work.",
       viewProjects: "View projects",
       downloadCv: "Download CV",
       linkedin: "Contact",
       github: "GitHub",
     },
     heroFocus: {
-      title: "Current focus",
-      status: "Building",
-      stackLabel: "Stack",
+      title: "Main stack",
+      status: "In use",
+      stackLabel: "Main stack",
       cards: [
         { title: "Frontend", value: "Clear interfaces for operations" },
         { title: "Backend", value: "APIs and business logic" },
-        { title: "Data", value: "SQL and traceability" },
+        { title: "Data", value: "SQL and reliable traceability" },
         { title: "Integration", value: "Automation and connected systems" },
       ],
-      stack: ["React", "Next.js", "Tailwind", "FastAPI"],
+      stack: ["React", "Next.js", "TypeScript", "Tailwind", "Supabase", "PostgreSQL", "FastAPI"],
     },
     about: {
       heading: "About",
@@ -401,9 +397,9 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       body: "I build product, backend, automation, and data workflows for systems that require clarity, traceability, and daily use.",
     },
     projects: {
-      heading: "Featured Projects",
-      title: "My projects",
-      description: "Real projects I worked on or I am currently building.",
+      heading: "Featured projects ⭐",
+      title: "Real systems I work on",
+      description: "Real systems I work on",
       featuredPreviewLabel: "Product preview",
       featuredStats: ["Clients", "Deadlines", "Active tasks"],
       featured: {
@@ -492,19 +488,23 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
     },
     experience: {
       heading: "Experience",
-      title: "Work focused on real operational environments",
-      description: "Experience in support, implementation, and process improvement in production environments.",
-      intro: "Experience in production environments with real data, incidents, and day-to-day operations.",
+      title: "Professional experience",
+      description: "Experience in support, implementation, data analysis, and process improvement in production environments.",
+      intro: "Technical support, data, integrations, and functional validation applied to systems in real use.",
       items: [
         {
-          company: "Foca Software",
+          company: "FOCA Software",
           role: "IT Help Desk / Technical Implementer",
           period: "Present",
           highlights: [
-            "Resolved incidents in production environments, diagnosed issues, and improved operational processes.",
-            "Validated and managed SQL Server data for support and implementation tasks.",
-            "Integrated APIs and systems to solve internal and client-facing operational needs.",
-            "Handled implementation, follow-up, and technical support for day-to-day workflows.",
+            "Resolved and analyzed incidents in production environments.",
+            "Validated and controlled data through SQL queries.",
+            "Implemented and configured systems for clients.",
+            "Integrated and verified APIs and operational processes.",
+            "Diagnosed functional and technical errors.",
+            "Supported critical billing, collections, and daily operations processes.",
+            "Participated in functional testing and validation of fixes.",
+            "Automated and optimized operational tasks.",
           ],
         },
         {
@@ -512,9 +512,11 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
           role: "Administrative Accounting",
           period: "Previous experience",
           highlights: [
-            "Digitized internal administrative processes to reduce manual work.",
-            "Managed daily administrative and accounting tasks with an operational focus.",
-            "Organized information and improved workflows through digital tools.",
+            "Handled invoicing and administrative control.",
+            "Managed suppliers, payments, and documentation.",
+            "Organized and tracked accounting processes.",
+            "Handled financial and administrative information.",
+            "Optimized operational tasks and internal control.",
           ],
         },
       ],
