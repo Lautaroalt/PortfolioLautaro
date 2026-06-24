@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lautaro Altamirano | Backend Developer",
+  title: "Lautaro Altamirano | Full Stack Developer | SQL, Automatización y Sistemas de Gestión",
   description:
     "Portfolio de Lautaro Altamirano, enfocado en backend, automatización, SQL e integración de sistemas.",
 };

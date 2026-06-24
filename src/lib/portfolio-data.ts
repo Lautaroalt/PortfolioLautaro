@@ -171,7 +171,7 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       contact: "Contactar",
     },
     hero: {
-      headline: "Full Stack Developer\ncon foco en backend,\ndatos y operación",
+      headline: "Full Stack Developer | SQL, Automatización y Sistemas de Gestión",
       subheadline: "Backend · APIs · SQL · Integraciones",
       description:
         "Desarrollo software para operación real: sistemas internos, paneles administrativos, gestión de datos, trazabilidad y automatización de procesos. Me enfoco en soluciones claras, usables y sostenibles para el día a día.",
@@ -370,7 +370,7 @@ export const portfolioContentByLocale: Record<Locale, PortfolioContent> = {
       contact: "Contact",
     },
     hero: {
-      headline: "Full Stack Developer\nfocused on backend,\ndata and operations",
+      headline: "Full Stack Developer | SQL, Automation and Management Systems",
       subheadline: "Backend · APIs · SQL · Integrations",
       description:
         "I build software for real operations: internal systems, admin panels, data management, traceability, and process automation. I focus on clear, usable, and sustainable solutions for day-to-day work.",
