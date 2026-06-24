@@ -335,7 +335,7 @@ export default function PortfolioPage() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70 [mask-image:radial-gradient(circle_at_center,black,transparent_84%)]" />
 
       <header className="sticky top-0 z-50 border-b border-emerald-400/10 bg-black/80 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-5 py-3 sm:px-8 lg:px-10">
           <a href="#top" className="flex items-center gap-3">
             <Image
               src="/profile.jpg"
@@ -421,20 +421,20 @@ export default function PortfolioPage() {
         </div>
       </header>
 
-      <div className="relative mx-auto max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
+      <div className="relative mx-auto max-w-[90rem] px-5 pb-14 sm:px-8 lg:px-10">
         <section
           id="top"
           className="scroll-mt-28 grid min-h-[84vh] items-center gap-12 py-8 lg:grid-cols-[1fr_0.95fr] lg:gap-14 lg:py-10"
         >
           <Reveal>
-            <div className="max-w-3xl">
-              <h1 className="max-w-3xl whitespace-pre-line text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[4.25rem] lg:leading-[1.02]">
+            <div className="max-w-4xl">
+              <h1 className="max-w-4xl whitespace-pre-line text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[4.25rem] lg:leading-[1.02]">
                 {t.hero.headline}
               </h1>
               <p className="mt-5 text-lg font-medium text-emerald-100/90 sm:text-[1.35rem]">
                 {t.hero.subheadline}
               </p>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-[1.05rem]">
+              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-300 sm:text-[1.05rem]">
                 {t.hero.description}
               </p>
 
@@ -457,7 +457,7 @@ export default function PortfolioPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mx-auto w-full max-w-[34rem] lg:ml-auto">
+            <div className="mx-auto w-full max-w-[38rem] lg:ml-auto">
               <motion.div
                 animate={{ y: [0, -4, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
